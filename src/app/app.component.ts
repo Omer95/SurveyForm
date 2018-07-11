@@ -27,7 +27,8 @@ export class AppComponent implements OnInit {
     console.log('child: ', index + 1);
   }
   log(event) {
-    this.fields.push(event);
+    const value = event;
+    this.fields[0] = value;
     console.log(this.fields);
     this.emitted = true;
   }
