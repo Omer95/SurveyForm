@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ChildFormComponent } from './child-form/child-form.component';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormlyFieldConfig } from '@ngx-formly/core';
 
 @Component({
   selector: 'app-root',
@@ -9,6 +10,10 @@ import { FormBuilder } from '@angular/forms';
 })
 export class AppComponent implements OnInit {
   forms: ChildFormComponent[] = [];
+  fields: FormlyFieldConfig[] = [];
+  emitted = false;
+  myForm = new FormGroup({});
+
   ngOnInit() {
     this.forms.push(new ChildFormComponent(new FormBuilder()));
   }
@@ -22,6 +27,8 @@ export class AppComponent implements OnInit {
     console.log('child: ', index + 1);
   }
   log(event) {
-    console.log(event);
+    this.fields.push(event);
+    console.log(this.fields);
+    this.emitted = true;
   }
 }

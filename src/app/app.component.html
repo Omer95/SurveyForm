@@ -6,4 +6,10 @@
   </div>
   <br>
   <button class="btn btn-warning" type="button" (click)="addForm()">Add New Form</button>
+  <div *ngIf="emitted" class="form-group">
+    <form [formGroup]="myForm">
+      <formly-form [form]="myForm" [fields]="fields">
+      </formly-form>
+    </form>
+  </div>
 </div>
