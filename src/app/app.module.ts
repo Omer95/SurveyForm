@@ -4,10 +4,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { AppComponent } from './app.component';
+import { ChildFormComponent } from './child-form/child-form.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ChildFormComponent
   ],
   imports: [
     BrowserModule,
