@@ -19,6 +19,11 @@
     <div *ngFor="let item of userForm.get('boxes')['controls']; let i=index" class="form-group">
       <input type="checkbox"> {{item.value}}
       <button *ngIf="boxButton" type="button" class="button" (click)="deleteBox(i)">x</button>
+      <button *ngIf="boxButton" type="button" class="button" (click)="editABox(i)">edit</button>
+      <div *ngIf="boxEditing[i]" class="form-group">
+          <input type="text" [value]="tempEditBox" id="editbox" class="form-control input-sm" [formControl]="editable">
+          <button type="button" class="btn btn-success" (click)="editedABox(i)">update</button>
+        </div>
     </div>
     <div *ngIf="boxButton" class="form-group">
       <button type="button" class="btn btn-danger" (click)="done()">Done</button>
@@ -31,6 +36,11 @@
     <div *ngFor="let item of userForm.get('radios')['controls']; let i=index" class="form-group">
       <input type="radio" name="arin"> {{item.value}}
       <button *ngIf="radioButton" type="button" class="button" (click)="deleteRadio(i)">x</button>
+      <button *ngIf="radioButton" type="button" class="button" (click)="editARadio(i)">edit</button>
+      <div *ngIf="radioEditing[i]" class="form-group">
+          <input type="text" [value]="tempEditBox" id="editbox" class="form-control input-sm" [formControl]="editable">
+          <button type="button" class="btn btn-success" (click)="editedARadio(i)">update</button>
+        </div>
     </div>
     <div *ngIf="radioButton" class="form-group">
       <button type="button" class="btn btn-danger" (click)="done()">Done</button>

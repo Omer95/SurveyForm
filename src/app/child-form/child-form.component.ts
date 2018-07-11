@@ -20,6 +20,10 @@ export class ChildFormComponent implements OnInit {
   boxButton = false;
   radioButton = false;
   description: string;
+  boxEditing: boolean[] = [];
+  radioEditing: boolean[] = [];
+  tempEditBox = '';
+  editable = new FormControl([undefined, Validators.required]);
   @Output() outputEvent = new EventEmitter();
 
   ngOnInit() {
@@ -39,6 +43,7 @@ export class ChildFormComponent implements OnInit {
     this.boxItems = this.userForm.get('boxes') as FormArray;
     this.boxItems.push(new FormControl(this.userForm.get('boxVal').value));
     this.boxButton = true;
+    this.boxEditing.push(false);
   }
   addRadio() {
     this.radioItems = this.userForm.get('radios') as FormArray;
@@ -57,28 +62,83 @@ export class ChildFormComponent implements OnInit {
   deleteBox(index) {
     this.boxItems = this.userForm.get('boxes') as FormArray;
     this.boxItems.removeAt(index);
+    if (this.boxItems.length === 0) {
+      this.boxButton = false;
+    }
   }
   deleteRadio(index) {
     this.radioItems = this.userForm.get('radios') as FormArray;
     this.radioItems.removeAt(index);
+    if (this.radioItems.length === 0) {
+      this.radioButton = false;
+    }
   }
   editBox() {
     this.box = true;
     this.boxButton = true;
   }
-editRadio() {
-  this.radio = true;
-  this.radioButton = true;
-}
+  editABox(index) {
+    this.boxEditing[index] = true;
+  }
+  editedABox(index) {
+    this.boxItems = this.userForm.get('boxes') as FormArray;
+    const value = this.editable.value;
+    this.boxItems.setControl(index, new FormControl(value));
+    this.boxEditing[index] = false;
+    this.tempEditBox = '';
+  }
+  editRadio() {
+    this.radio = true;
+    this.radioButton = true;
+  }
+  editARadio(index) {
+    this.radioEditing[index] = true;
+  }
+  editedARadio(index) {
+    this.radioItems = this.userForm.get('radios') as FormArray;
+    const value = this.editable.value;
+    this.radioItems.setControl(index, new FormControl(value));
+    this.radioEditing[index] = false;
+    this.tempEditBox = '';
+  }
   done() {
     if (this.box) {
-      // console.log(this.userForm.get('boxes').value);
-      // console.log((new Payload('checkbox', this.description, this.userForm.get('boxes').value)));
-      this.outputEvent.emit(new Payload('checkbox', this.description, this.userForm.get('boxes').value));
+      const output = {
+        key: this.userForm.value.desc,
+        type: 'multicheckbox',
+        templateOptions: {
+          label: this.userForm.value.desc,
+          options: []
+        }
+      };
+      this.boxItems = this.userForm.get('boxes') as FormArray;
+      const len = this.boxItems.length;
+      for (let i = 0; i < len; i++) {
+        output.templateOptions.options.push({
+          key: this.boxItems.at(i).value,
+          value: this.boxItems.at(i).value
+        });
+      }
+      // console.log('formly format', output);
+      this.outputEvent.emit(output);
     } else {
-      // console.log(this.userForm.get('radios').value);
-      // console.log((new Payload('radio', this.description, this.userForm.get('radios').value)));
-      this.outputEvent.emit(new Payload('radio', this.description, this.userForm.get('radios').value));
+      const output = {
+        key: this.userForm.value.desc,
+        type: 'radio',
+        templateOptions: {
+          label: this.userForm.value.desc,
+          options: []
+        }
+      };
+      this.radioItems = this.userForm.get('radios') as FormArray;
+      const len = this.radioItems.length;
+      for (let i = 0; i < len; i++) {
+        output.templateOptions.options.push({
+          key: this.radioItems.at(i).value,
+          value: this.radioItems.at(i).value
+        });
+      }
+      this.outputEvent.emit(output);
     }
     this.box = false;
     this.radio = false;
