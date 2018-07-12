@@ -54,17 +54,22 @@ export class ChildFormComponent implements OnInit {
     this.radioItems = this.userForm.get('radios') as FormArray;
     this.radioItems.push(new FormControl(this.userForm.get('radioVal').value));
     this.radioButton = true;
+    this.radioEditing.push(false);
   }
   addTextbox() {
     this.textItems = this.userForm.get('textBoxes') as FormArray;
     this.textItems.push(new FormControl(this.userForm.get('textVal').value));
     this.textButton = true;
+    this.textEditing.push(false);
   }
   select() {
     if (this.userForm.get('select').value === 'checkBox') {
       this.box = true;
-    } else {
+    }
+    if (this.userForm.get('select').value === 'radioButton') {
       this.radio = true;
+    } else {
+      this.text = true;
     }
     this.selected = true;
     this.description = this.userForm.get('desc').value;
@@ -81,6 +86,13 @@ export class ChildFormComponent implements OnInit {
     this.radioItems.removeAt(index);
     if (this.radioItems.length === 0) {
       this.radioButton = false;
+    }
+  }
+  deleteTextbox(index) {
+    this.textItems = this.userForm.get('textBoxes') as FormArray;
+    this.textItems.removeAt(index);
+    if (this.textItems.length === 0) {
+      this.textButton = false;
     }
   }
   editBox() {
@@ -115,8 +127,15 @@ export class ChildFormComponent implements OnInit {
     this.text = true;
     this.textButton = true;
   }
-  editATextbox() {
-
+  editATextbox(index) {
+    this.textEditing[index] = true;
+  }
+  editedATextbox(index) {
+    this.textItems = this.userForm.get('textBoxes') as FormArray;
+    const value = this.editable.value;
+    this.textItems.setControl(index, new FormControl(value));
+    this.textEditing[index] = false;
+    this.tempEditBox = '';
   }
   done() {
     if (this.box) {
@@ -138,7 +157,8 @@ export class ChildFormComponent implements OnInit {
       }
       // console.log('formly format', output);
       this.outputEvent.emit(output);
-    } else {
+    }
+    if (this.radio) {
       const output = {
         key: this.userForm.value.desc,
         type: 'radio',
@@ -156,10 +176,28 @@ export class ChildFormComponent implements OnInit {
         });
       }
       this.outputEvent.emit(output);
+    } else {
+        const output = [];
+        this.textItems = this.userForm.get('textBoxes') as FormArray;
+        const len = this.textItems.length;
+        for (let i = 0; i < len; i++) {
+          output.push({
+            key: this.userForm.value.desc,
+            type: 'input',
+            templateOptions: {
+              type: 'input',
+              label: this.userForm.value.desc,
+              placeholder: this.textItems.at(i).value
+            }
+          });
+        }
+      this.outputEvent.emit(output);
     }
     this.box = false;
     this.radio = false;
+    this.text = false;
     this.radioButton = false;
     this.boxButton = false;
+    this.textButton = false;
   }
 }

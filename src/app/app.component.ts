@@ -28,8 +28,8 @@ export class AppComponent implements OnInit {
   }
   log(event) {
     const value = event;
-    this.fields[0] = value;
-    console.log(this.fields);
+    this.fields = value;
+    console.log(event);
     this.emitted = true;
   }
 }

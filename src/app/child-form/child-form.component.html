@@ -54,7 +54,7 @@
       <button type="button" class="btn btn-primary" (click)="addTextbox()">Add Text Box</button>  
     </div>
     <div *ngFor="let item of userForm.get('textBoxes')['controls']; let i=index" class="form-group">
-      <input type="text" name="arin" [placeholder]="item.value"> {{item.value}}
+      <input class="form-control input-sm" type="text" name="arin" [placeholder]="item.value">
       <button *ngIf="textButton" type="button" class="button" (click)="deleteTextbox(i)">x</button>
       <button *ngIf="textButton" type="button" class="button" (click)="editATextbox(i)">edit</button>
       <div *ngIf="textEditing[i]" class="form-group">
@@ -62,7 +62,7 @@
           <button type="button" class="btn btn-success" (click)="editedATextbox(i)">update</button>
         </div>
     </div>
-    <div *ngIf="radioButton" class="form-group">
+    <div *ngIf="textButton" class="form-group">
       <button type="button" class="btn btn-danger" (click)="done()">Done</button>
     </div>
 
@@ -71,7 +71,7 @@
     <div class="form-group">
       <button *ngIf="userForm.controls.boxes.controls[0] && !box && !boxButton" type="button" class="btn btn-primary" (click)="editBox()">edit</button>
       <button *ngIf="userForm.controls.radios.controls[0] && !radio && !radioButton" type="button" class="btn btn-primary" (click)="editRadio()">edit</button>
-      <button *ngIf="userForm.controls.textBoxes.controls[0] && !text && !textButton" type="button" class="btn btn-primary" (click)="editText()"
+      <button *ngIf="userForm.controls.textBoxes.controls[0] && !text && !textButton" type="button" class="btn btn-primary" (click)="editText()">edit</button>
     </div>
   </form>
 </div>
