@@ -7,6 +7,7 @@
       <select class="form-control" formControlName="select">
         <option value="checkBox">Checkbox</option>
         <option value="radioButton">Radio Button</option>
+        <option value="textField">Text Field</option>
       </select>
       <br>
       <button type="submit" class="btn btn-success" (click)="select()" [disabled]="!userForm.controls.select.valid">Create Form</button>
@@ -45,9 +46,32 @@
     <div *ngIf="radioButton" class="form-group">
       <button type="button" class="btn btn-danger" (click)="done()">Done</button>
     </div>
+
+
+    <div *ngIf="text" class="form-group">
+      <input type="text" class="form-control" id="textValue" placeholder="Enter textbox placeholder" formControlName="textVal">
+      <br>
+      <button type="button" class="btn btn-primary" (click)="addTextbox()">Add Text Box</button>  
+    </div>
+    <div *ngFor="let item of userForm.get('textBoxes')['controls']; let i=index" class="form-group">
+      <input type="text" name="arin" [placeholder]="item.value"> {{item.value}}
+      <button *ngIf="textButton" type="button" class="button" (click)="deleteTextbox(i)">x</button>
+      <button *ngIf="textButton" type="button" class="button" (click)="editATextbox(i)">edit</button>
+      <div *ngIf="textEditing[i]" class="form-group">
+          <input type="text" [value]="tempEditBox" id="edittext" class="form-control input-sm" [formControl]="editable">
+          <button type="button" class="btn btn-success" (click)="editedATextbox(i)">update</button>
+        </div>
+    </div>
+    <div *ngIf="radioButton" class="form-group">
+      <button type="button" class="btn btn-danger" (click)="done()">Done</button>
+    </div>
+
+
+
     <div class="form-group">
       <button *ngIf="userForm.controls.boxes.controls[0] && !box && !boxButton" type="button" class="btn btn-primary" (click)="editBox()">edit</button>
       <button *ngIf="userForm.controls.radios.controls[0] && !radio && !radioButton" type="button" class="btn btn-primary" (click)="editRadio()">edit</button>
+      <button *ngIf="userForm.controls.textBoxes.controls[0] && !text && !textButton" type="button" class="btn btn-primary" (click)="editText()"
     </div>
   </form>
 </div>

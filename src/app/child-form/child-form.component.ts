@@ -9,6 +9,7 @@ import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@ang
 export class ChildFormComponent implements OnInit {
   radio = false;
   box = false;
+  text = false;
   title = 'app';
   userForm: FormGroup;
   constructor(private fb: FormBuilder) {}
@@ -16,11 +17,14 @@ export class ChildFormComponent implements OnInit {
   index = 0;
   boxItems;
   radioItems;
+  textItems;
   boxButton = false;
   radioButton = false;
+  textButton = false;
   description: string;
   boxEditing: boolean[] = [];
   radioEditing: boolean[] = [];
+  textEditing: boolean[] = [];
   tempEditBox = '';
   editable = new FormControl([undefined, Validators.required]);
   @Output() outputEvent = new EventEmitter();
@@ -34,8 +38,10 @@ export class ChildFormComponent implements OnInit {
       select: [undefined, Validators.required],
       boxVal: [undefined, Validators.required],
       radioVal: [undefined, Validators.required],
+      textVal: [undefined, Validators.required],
       boxes: this.fb.array([]),
-      radios: this.fb.array([])
+      radios: this.fb.array([]),
+      textBoxes: this.fb.array([])
     });
   }
   addBox() {
@@ -48,6 +54,11 @@ export class ChildFormComponent implements OnInit {
     this.radioItems = this.userForm.get('radios') as FormArray;
     this.radioItems.push(new FormControl(this.userForm.get('radioVal').value));
     this.radioButton = true;
+  }
+  addTextbox() {
+    this.textItems = this.userForm.get('textBoxes') as FormArray;
+    this.textItems.push(new FormControl(this.userForm.get('textVal').value));
+    this.textButton = true;
   }
   select() {
     if (this.userForm.get('select').value === 'checkBox') {
@@ -99,6 +110,13 @@ export class ChildFormComponent implements OnInit {
     this.radioItems.setControl(index, new FormControl(value));
     this.radioEditing[index] = false;
     this.tempEditBox = '';
+  }
+  editText() {
+    this.text = true;
+    this.textButton = true;
+  }
+  editATextbox() {
+
   }
   done() {
     if (this.box) {
