@@ -46,8 +46,6 @@
     <div *ngIf="radioButton" class="form-group">
       <button type="button" class="btn btn-danger" (click)="done()">Done</button>
     </div>
-
-
     <div *ngIf="text" class="form-group">
       <input type="text" class="form-control" id="textValue" placeholder="Enter textbox placeholder" formControlName="textVal">
       <br>
@@ -65,9 +63,6 @@
     <div *ngIf="textButton" class="form-group">
       <button type="button" class="btn btn-danger" (click)="done()">Done</button>
     </div>
-
-
-
     <div class="form-group">
       <button *ngIf="userForm.controls.boxes.controls[0] && !box && !boxButton" type="button" class="btn btn-primary" (click)="editBox()">edit</button>
       <button *ngIf="userForm.controls.radios.controls[0] && !radio && !radioButton" type="button" class="btn btn-primary" (click)="editRadio()">edit</button>
