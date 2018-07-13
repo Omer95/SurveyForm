@@ -68,7 +68,8 @@ export class ChildFormComponent implements OnInit {
     }
     if (this.userForm.get('select').value === 'radioButton') {
       this.radio = true;
-    } else {
+    }
+    if (this.userForm.get('select').value === 'textField') {
       this.text = true;
     }
     this.selected = true;
